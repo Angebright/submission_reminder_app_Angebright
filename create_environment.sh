@@ -108,11 +108,11 @@ Chinemerem, Shell Navigation, not submitted
 Chiagoziem, Git, submitted
 Divine, Shell Navigation, not submitted
 Anissa, Shell Basics, submitted
-Victor, Shell Navigation, not submitted
-Derrick, Linux and IT Tools, submitted
-Yannick, Self Leadership and Team Dynamics, not submitted
-George, E-Lab, submitted
-Deborah, Reflective Thinking, not submitted
+Marcus, Database Management, submitted
+Sophia, Web Development, not submitted
+Trevor, Network Security, submitted
+Isabella, Project Management, not submitted
+Kenneth, Data Structures, submitted
 EOF
 echo "✓ Created file: $main_dir/assets/submissions.txt"
 
@@ -166,3 +166,22 @@ echo "To test the application:"
 echo "1. cd $main_dir"
 echo "2. ./startup.sh"
 echo
+
+# Test startup script
+echo "Testing startup script..."
+cd "$main_dir"
+if [ -x "./startup.sh" ]; then
+    echo "startup.sh is executable and ready to run"
+    echo "Would you like to test the application now? (y/n): "
+    read test_now
+    if [ "$test_now" = "y" ] || [ "$test_now" = "Y" ]; then
+        echo
+        echo "Running application test..."
+        ./startup.sh
+    fi
+else
+    echo "Warning: startup.sh is not executable"
+fi
+
+cd ..
+echo "Setup script completed successfully!"
