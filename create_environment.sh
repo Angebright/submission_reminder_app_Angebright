@@ -13,3 +13,22 @@ fi
 # Make directory name from user name
 clean_name=$(echo "$user_name" | tr -d ' ' | tr '[:upper:]' '[:lower:]')
 main_dir="submission_reminder_${clean_name}"
+echo "Creating environment for: $user_name"
+echo "Directory name: $main_dir"
+echo
+
+# Check if directory exists and ask to overwrite
+if [ -d "$main_dir" ]; then
+    echo -n "Directory $main_dir already exists. Do you want to overwrite it? (y/n): "
+    read overwrite
+    if [ "$overwrite" != "y" ] && [ "$overwrite" != "Y" ]; then
+        echo "Setup cancelled by user."
+        exit 0
+    fi
+    rm -rf "$main_dir"
+    echo "Removed existing directory"
+fi
+
+# Create directories
+mkdir -p "$main_dir"
+
