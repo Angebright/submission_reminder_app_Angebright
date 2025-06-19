@@ -98,3 +98,60 @@ EOF
 # sed -i "2s/^ASSIGNMENT=.*/ASSIGNMENT=\"$new_assignment_name\"/" "$config_file"
 echo "✓ Updated ASSIGNMENT in config file"
 
+# Show updated value
+updated_value=$(grep "^ASSIGNMENT=" "$config_file" | head -1)
+echo "Updated assignment: $updated_value"
+
+# Check startup script
+echo "Verifying startup script..."
+if [ ! -f "$startup_script" ]; then
+    echo "Error: startup.sh not found in $app_directory"
+    exit 1
+fi
+
+if [ ! -x "$startup_script" ]; then
+    echo "Warning: startup.sh is not executable. Making it executable..."
+    chmod +x "$startup_script"
+    echo "✓ Made startup.sh executable"
+fi
+
+# Ask to run now
+echo
+echo "✓ Assignment updated successfully!"
+echo "Would you like to run the application now to check submission status? (y/n): "
+read run_now
+
+if [ "$run_now" = "y" ] || [ "$run_now" = "Y" ]; then
+    echo "Changing to application directory and running startup.sh..."
+    echo
+    echo "=========================================="
+
+    # Run the application
+    cd "$app_directory"
+    if [ $? -eq 0 ]; then
+        ./startup.sh
+        startup_exit_code=$?
+        echo
+        echo "=========================================="
+        if [ $startup_exit_code -eq 0 ]; then
+            echo "✓ Application completed successfully!"
+        else
+            echo "Application completed with exit code: $startup_exit_code"
+        fi
+    else
+        echo "Failed to change to application directory"
+        exit 1
+    fi
+
+    # Return to original directory
+    cd - > /dev/null
+else
+    echo "To run the application later:"
+    echo "1. cd $app_directory"
+    echo "2. ./startup.sh"
+fi
+
+echo
+echo "✓ Copilot script completed successfully!"
+echo "Assignment is now set to: \"$new_assignment_name\""
+
