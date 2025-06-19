@@ -151,4 +151,18 @@ echo
 echo "Application execution completed."
 EOF
 echo "✓ Created file: $main_dir/startup.sh"
+# Make scripts executable
+echo "Setting executable permissions for .sh files..."
+find "$main_dir" -name "*.sh" -type f -exec chmod +x {} \;
+echo "✓ Set executable permissions for all .sh files"
 
+# Show directory structure
+echo "Directory structure created:"
+find "$main_dir" -type f | sort
+
+echo
+echo "=== Environment Setup Complete! ==="
+echo "To test the application:"
+echo "1. cd $main_dir"
+echo "2. ./startup.sh"
+echo
